@@ -226,7 +226,6 @@
                 dataType: "json",
                 data: $('#enquiryForm').serializeObject(),
                 success: function (rooms) {
-                    console.log(rooms);
                     $('#contactModal').modal('hide');
                     $('#contactSuccess').show();
                     $('.loader').hide();
