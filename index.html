@@ -38,8 +38,8 @@
         }
 
         .loader {
-            border: 4px solid #f3f3f3; /* Light grey */
-            border-top: 4px solid #3498db; /* Blue */
+            border: 4px solid #f3f3f3;
+            border-top: 4px solid #3498db;
             border-radius: 50%;
             width: 24px;
             height: 24px;
@@ -49,8 +49,13 @@
         }
 
         @keyframes spin {
-            0% { transform: rotate(0deg); }
-            100% { transform: rotate(360deg); }
+            0% {
+                transform: rotate(0deg);
+            }
+
+            100% {
+                transform: rotate(360deg);
+            }
         }
     </style>
 </head>
@@ -177,6 +182,10 @@
     </script>
 
     <script>
+        if (/Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent)) {
+            document.body.style.backgroundImage = "url('https://source.unsplash.com/random/720x1280')"
+        }
+
         function fillin(content) {
             if (content) {
                 $('#contactEnquiry').val(content);
@@ -204,22 +213,18 @@
             return o;
         }
 
-        var $form = $('#enquiryForm'),
-            url = 'https://script.google.com/macros/s/AKfycbyMn3TxeyHaq0TvSHEwfHJR06yHVxJpr1RwyulFumE5vbwevJY/exec'
-
-
         $("#contactModal").on('hidden.bs.modal', function () {
             $(this).data('bs.modal', null);
         });
 
-        $('#submission').on('click', function(e) {
+        $('#submission').on('click', function (e) {
             $('.loader').show();
             e.preventDefault();
             $.ajax({
-                url: url,
+                url: 'https://script.google.com/macros/s/AKfycbyMn3TxeyHaq0TvSHEwfHJR06yHVxJpr1RwyulFumE5vbwevJY/exec',
                 method: "GET",
                 dataType: "json",
-                data: $form.serializeObject(),
+                data: $('#enquiryForm').serializeObject(),
                 success: function (rooms) {
                     console.log(rooms);
                     $('#contactModal').modal('hide');
@@ -228,9 +233,7 @@
                 }
             });
         })
-
     </script>
-
 </body>
 
 </html>
