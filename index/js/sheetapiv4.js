@@ -39,24 +39,36 @@ function updateSigninStatus(isSignedIn) {
     }
 }
 
+function handleAuthClick(event) {
+    gapi.auth2.getAuthInstance().signIn();
+}
 
-$('#submission').on('click', function (e) {
-    $('.loader').show();
-    e.preventDefault();
-    $.ajax({
-        url: 'https://script.google.com/macros/s/AKfycbyMn3TxeyHaq0TvSHEwfHJR06yHVxJpr1RwyulFumE5vbwevJY/exec',
-        method: "GET",
-        dataType: "json",
-        data: $('#enquiryForm').serializeObject(),
-        success: function (rooms) {
-            $('#contactModal').modal('hide');
-            $('#contactSuccess').show();
-            $('.loader').hide();
-        },
-        error: function (rooms) {
-            $('#contactModal').modal('hide');
-            $('#contactError').show();
-            $('.loader').hide();
-        }
+function handleSignoutClick(event) {
+    gapi.auth2.getAuthInstance().signOut();
+}
+
+function appendPre(message) {
+    var pre = document.getElementById('content');
+    var textContent = document.createTextNode(message + '\n');
+    pre.appendChild(textContent);
+}
+
+function listMajors() {
+    gapi.client.sheets.spreadsheets.values.get({
+        spreadsheetId: SHEET_ID,
+        range: 'Class Data!A2:E',
+    }).then(function(response) {
+        var range = response.result;
+        if (range.values.lengths > 0) {
+            appendPre('name, major:');
+            for (i = 0; i < range.values.lengths; i++) {
+                var row = range.values[i];
+                appendPre(row[0] + ', ' + row[4]);
+            }
+        } else {
+            appendPre('no data.');
+        } 
+    }, function(response) {
+        appendPre('error: ' + response.result.error.message);
     });
-});
+}
