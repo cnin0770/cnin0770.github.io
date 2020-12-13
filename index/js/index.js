@@ -28,25 +28,47 @@ $("#contactModal").on('hidden.bs.modal', function () {
     $(this).data('bs.modal', null);
 });
 
-$('#submission').on('click', function (e) {
+$("#enquiryForm").
+
+// $('#submission').on('click', function (e) {
+$('#enquiryForm').on('submit', function (e) {
     $('.loader').show();
     e.preventDefault();
-    $.ajax({
-        url: 'https://script.google.com/macros/s/AKfycbyMn3TxeyHaq0TvSHEwfHJR06yHVxJpr1RwyulFumE5vbwevJY/exec',
-        method: "GET",
-        dataType: "json",
-        data: $('#enquiryForm').serializeObject(),
-        success: function (rooms) {
-            $('#contactModal').modal('hide');
+    var xhr = new XMLHttpRequest();
+    var url = 'https://formspree.io/f/xdopwppj';
+    var method = "POST";
+    var data = $('#enquiryForm').serializeObject();
+    xhr.open(method, url);
+    xhr.setRequestHeader("Accept", "application/json");
+    xhr.onreadystatechange = function() {
+        if (xhr.readyState !== XMLHttpRequest.DONE) return;
+        $('#contactModal').modal('hide');
+        $('.loader').hide();
+        if (xhr.status === 200) {
             $('#contactSuccess').show();
-            $('.loader').hide();
-        },
-        error: function (rooms) {
-            $('#contactModal').modal('hide');
+        } else {
             $('#contactError').show();
-            $('.loader').hide();
         }
-    });
+    };
+
+    xhr.send(data);
+
+    // $.ajax({
+    //     url: 'https://script.google.com/macros/s/AKfycbyMn3TxeyHaq0TvSHEwfHJR06yHVxJpr1RwyulFumE5vbwevJY/exec',
+    //     method: "GET",
+    //     dataType: "json",
+    //     data: $('#enquiryForm').serializeObject(),
+    //     success: function (rooms) {
+    //         $('#contactModal').modal('hide');
+    //         $('#contactSuccess').show();
+    //         $('.loader').hide();
+    //     },
+    //     error: function (rooms) {
+    //         $('#contactModal').modal('hide');
+    //         $('#contactError').show();
+    //         $('.loader').hide();
+    //     }
+    // });
 });
 
 if (/Android|iPhone|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent)) {

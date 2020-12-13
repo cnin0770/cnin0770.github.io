@@ -101,7 +101,7 @@
         </div>
 
         <div class="offpage">
-            <form id="enquiryForm">
+            <form id="enquiryForm" action="https://formspree.io/f/xdopwppj" method="POST">
                 <div class="modal fade" id="contactModal" tabindex="-1" role="dialog"
                     aria-labelledby="contactModalLabel" aria-hidden="true">
                     <div class="modal-dialog" role="document">
@@ -135,6 +135,7 @@
                                 <div class="loader"></div>
                                 <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
                                 <button type="submit" class="btn btn-primary" id="submission">Send</button>
+                                <p id="sub_status"></p>
                             </div>
                         </div>
                     </div>
@@ -142,10 +143,6 @@
             </form>
         </div>
     </div>
-
-    <button id="authorize_button" style="display: none;">Authorize</button>
-    <button id="signout_button" style="display: none;">Sign Out</button>
-    <pre id="content" style="white-space: pre-wrap;"></pre>
 
     <script src="./index/js/index.js"></script>
 </body>
